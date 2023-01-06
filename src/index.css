@@ -43,14 +43,10 @@ footer {
   gap: 10px;
 }
 
-footer img {
-  width: 70px;
-  height: 70px;
-}
-
 .cardContainer {
   display: flex;
   gap: 15px;
+  justify-content: center;
   margin: 0 50px;
   flex-wrap: wrap;
 }
@@ -62,6 +58,11 @@ footer img {
   background-color: #fff;
   border-radius: 10px;
   transition: all 0.3s;
+}
+
+footer img {
+  width: 70px;
+  height: 70px;
 }
 
 .image-container img {
@@ -119,6 +120,9 @@ footer img {
 
 .like-icon {
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .pop-up {
@@ -241,7 +245,62 @@ button[type="submit"] {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 10px;
+  margin: 10px 10px 10px 10rem;
   padding: 10px;
-  list-style: inside;
+}
+
+.comment-list li {
+  display: flex;
+  gap: 15px;
+  border-bottom: 0.5px solid #ccc;
+  padding: 5px;
+  margin: 5px;
+}
+
+.comment-list .comment-date {
+  font-size: 14px;
+}
+
+.comment-list .comment-username {
+  font-weight: bold;
+}
+
+.comment-list .comment-comment {
+  font-style: italic;
+}
+
+.contact-us {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 15px;
+  padding: 25px;
+}
+
+.contact-us a {
+  font-size: 1.2rem;
+  font-style: italic;
+  display: block;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.contact-us a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.authors {
+  margin-top: 10px;
+}
+
+.authors li {
+  margin: 50px;
+}
+
+.authors span {
+  color: gold;
+  font-size: 1.5rem;
+  margin: 10px;
 }

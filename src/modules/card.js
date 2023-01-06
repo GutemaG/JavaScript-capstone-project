@@ -1,3 +1,5 @@
+import homeCounter from './homeCounter.js';
+
 const card = (meal) => {
   const cardElement = document.createElement('div');
   cardElement.classList.add('card');
@@ -16,6 +18,7 @@ const card = (meal) => {
       </div>
     </div>
   `;
+  homeCounter();
   return cardElement;
 };
 

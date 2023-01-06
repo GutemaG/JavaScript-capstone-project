@@ -1,6 +1,8 @@
 import card from './card.js';
 import detail from './detail.js';
-import { createLike, getComment, getLikes } from './fetchInvolvement.js';
+import {
+  createComment, getComment, getLikes, createLike,
+} from './fetchInvolvement.js';
 import fetchMealAPI, { fetchSingleMealAPI } from './fetchMealAPI.js';
 
 const filterLike = (likes, mealId) => {
@@ -54,6 +56,28 @@ const itemList = async () => {
           commentListContainer.appendChild(commentList);
         });
       }
+      const addCommentForms = document.querySelectorAll('.comment-form');
+      addCommentForms.forEach((form) => {
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const username = form.username.value;
+          const comment = form.comment.value;
+          const data = { username, comment, mealId };
+          createComment(data).then((res) => {
+            const commentList = document.createElement('li');
+            commentList.innerHTML = `
+              <span class="comment-date"> ${res.creation_date} </span>
+              <span class="comment-username"> ${res.username} </span>  
+              <span class="comment-comment">${res.comment}</span>
+              `;
+            commentListContainer.appendChild(commentList);
+            commentListContainer.querySelector('.no-comment').style.display = 'none';
+          });
+          form.username.value = '';
+          form.comment.value = '';
+        });
+      });
+
       const closeButtons = document.querySelectorAll('.btn-close');
       const popups = document.querySelectorAll('.pop-up');
       closeButtons.forEach((btn) => {

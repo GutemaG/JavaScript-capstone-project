@@ -243,9 +243,5 @@ button[type="submit"] {
   justify-content: center;
   margin: 10px;
   padding: 10px;
-}
-
-.comments .comment-list li {
-  margin: 5px;
-  align-self: center;
+  list-style: inside;
 }

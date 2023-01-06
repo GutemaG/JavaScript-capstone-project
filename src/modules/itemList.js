@@ -1,6 +1,6 @@
 import card from './card.js';
 import detail from './detail.js';
-import { getLikes } from './fetchInvolvement.js';
+import { getComment, getLikes } from './fetchInvolvement.js';
 import fetchMealAPI, { fetchSingleMealAPI } from './fetchMealAPI.js';
 
 const filterLike = (likes, mealId) => {
@@ -22,16 +22,33 @@ const itemList = async () => {
   const commentBtn = document.querySelectorAll('.comment-btn');
   commentBtn.forEach((btn) => {
     btn.addEventListener('click', async (event) => {
+      const mealId = event.target.id;
       const meal = await fetchSingleMealAPI(event.target.id);
-      const popup = detail(meal[0]);
+      const comments = await getComment(mealId);
+      let popup = null;
+      if (!comments) {
+        popup = detail(meal[0], []);
+      } else {
+        popup = detail(meal[0], comments);
+      }
       document.querySelector('#app').appendChild(popup);
 
+      const commentListContainer = document.querySelector('.comment-list');
+      if (!comments.length) {
+        commentListContainer.innerText = 'No comment';
+      } else {
+        comments.forEach((comment) => {
+          const commentList = document.createElement('li');
+          commentList.innerText = `${comment.creation_date}  ${comment.username}  ${comment.comment}`;
+          commentListContainer.appendChild(commentList);
+        });
+      }
       const closeButtons = document.querySelectorAll('.btn-close');
       const popups = document.querySelectorAll('.pop-up');
       closeButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
           popups.forEach((popup) => {
-            popup.style.display = 'none';
+            document.querySelector('#app').removeChild(popup);
           });
         });
       });

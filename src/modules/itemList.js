@@ -1,12 +1,23 @@
 import card from './card.js';
 import detail from './detail.js';
+import { getLikes } from './fetchInvolvement.js';
 import fetchMealAPI, { fetchSingleMealAPI } from './fetchMealAPI.js';
+
+const filterLike = (likes, mealId) => {
+  const filtered = likes.filter((like) => like.item_id === Number(mealId));
+  if (filtered.length) {
+    return filtered[0].likes;
+  }
+  return 0;
+};
 
 const itemList = async () => {
   const cardContainer = document.querySelector('.cardContainer');
   const meals = await fetchMealAPI();
+  const likes = await getLikes();
   meals.forEach((meal) => {
-    cardContainer.appendChild(card(meal));
+    const mealLikes = filterLike(likes, meal.idMeal);
+    cardContainer.appendChild(card({ ...meal, mealLikes }));
   });
   const commentBtn = document.querySelectorAll('.comment-btn');
   commentBtn.forEach((btn) => {

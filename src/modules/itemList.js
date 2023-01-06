@@ -1,4 +1,5 @@
 import card from './card.js';
+import commentCounter from './commentCounter.js';
 import detail from './detail.js';
 import {
   createComment, getComment, getLikes, createLike,
@@ -12,7 +13,6 @@ const filterLike = (likes, mealId) => {
   }
   return 0;
 };
-
 const itemList = async () => {
   const cardContainer = document.querySelector('.cardContainer');
   const meals = await fetchMealAPI();
@@ -36,26 +36,31 @@ const itemList = async () => {
   commentBtn.forEach((btn) => {
     btn.addEventListener('click', async (event) => {
       const mealId = event.target.id;
-      const meal = await fetchSingleMealAPI(event.target.id);
+      const meal = await fetchSingleMealAPI(mealId);
       const comments = await getComment(mealId);
       let popup = null;
       if (!comments) {
-        popup = detail(meal[0], []);
+        popup = detail(meal[0]);
       } else {
-        popup = detail(meal[0], comments);
+        popup = detail(meal[0]);
       }
+
       document.querySelector('#app').appendChild(popup);
 
       const commentListContainer = document.querySelector('.comment-list');
       if (!comments.length) {
-        commentListContainer.innerText = 'No comment';
+        commentListContainer.innerHTML = '<span class="no-comment"> No comment </span>';
       } else {
         comments.forEach((comment) => {
           const commentList = document.createElement('li');
-          commentList.innerText = `${comment.creation_date}  ${comment.username}  ${comment.comment}`;
+          commentList.innerHTML = `
+            <span class="comment-date"> ${comment.creation_date} </span>
+            <span class="comment-username"> ${comment.username} </span>  
+            <span class="comment-comment">${comment.comment}</span>`;
           commentListContainer.appendChild(commentList);
         });
       }
+      commentCounter();
       const addCommentForms = document.querySelectorAll('.comment-form');
       addCommentForms.forEach((form) => {
         form.addEventListener('submit', (event) => {
@@ -71,7 +76,10 @@ const itemList = async () => {
               <span class="comment-comment">${res.comment}</span>
               `;
             commentListContainer.appendChild(commentList);
-            commentListContainer.querySelector('.no-comment').style.display = 'none';
+            commentCounter();
+            if (commentListContainer.querySelector('.no-comment')) {
+              commentListContainer.querySelector('.no-comment').style.display = 'none';
+            }
           });
           form.username.value = '';
           form.comment.value = '';

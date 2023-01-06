@@ -55,9 +55,9 @@ const detail = (data, comments) => {
           </ul>
           <div class="add-comment-form">
             <h4>Add Comment</h4>
-            <form action="#" method="post" class="comment-form">
-              <input type="text" name="name" placeholder="Your Name" />
-              <textarea name="body" placeholder="Your Insights"></textarea>
+            <form action="#" class="comment-form">
+              <input type="text" name="username" placeholder="Your Name" required/>
+              <textarea name="comment" placeholder="Your Insights" required></textarea>
               <button type="submit" class="btn">Comment</button>
             </form>
           </div>

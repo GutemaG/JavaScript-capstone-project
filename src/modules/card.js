@@ -8,6 +8,7 @@ const card = (meal) => {
         <span>${meal.strMeal}</span>
         <span class="like-icon">
           <i class="fa-regular fa-heart fa-2x"></i>
+          <span class="likes">${meal.mealLikes}</span> likes
         </span>
       </div>
       <div class="card__body__buttons">

@@ -1,6 +1,6 @@
 import card from './card.js';
 import detail from './detail.js';
-import { getComment, getLikes } from './fetchInvolvement.js';
+import { createLike, getComment, getLikes } from './fetchInvolvement.js';
 import fetchMealAPI, { fetchSingleMealAPI } from './fetchMealAPI.js';
 
 const filterLike = (likes, mealId) => {
@@ -19,6 +19,17 @@ const itemList = async () => {
     const mealLikes = filterLike(likes, meal.idMeal);
     cardContainer.appendChild(card({ ...meal, mealLikes }));
   });
+  const likeBtns = document.querySelectorAll('.like-icon i');
+  likeBtns.forEach((btn) => {
+    btn.addEventListener('click', (event) => {
+      let { id } = event.target;
+      id = Number(id.split('-')[1]);
+      createLike(id);
+      const numberOfLikes = btn.nextSibling.nextSibling;
+      numberOfLikes.innerHTML = Number(numberOfLikes.innerHTML) + 1;
+    });
+  });
+
   const commentBtn = document.querySelectorAll('.comment-btn');
   commentBtn.forEach((btn) => {
     btn.addEventListener('click', async (event) => {
